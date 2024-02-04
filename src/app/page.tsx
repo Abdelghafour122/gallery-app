@@ -1,3 +1,4 @@
+import Footer from "@/components/Footer";
 import { Button } from "@nextui-org/react";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
       <Button variant="flat" radius="sm">
         Click
       </Button>
+      <Footer />
     </main>
   );
 }
