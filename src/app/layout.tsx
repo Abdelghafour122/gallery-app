@@ -15,9 +15,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark min-h-screen flex flex-col h-full">
+    <html lang="en" className="dark min-h-screen h-full w-full relative">
       <body
-        className={`${notoSans.className} h-full flex flex-col items-center justify-between`}
+        className={`${notoSans.className} h-full flex items-center justify-center`}
       >
         <NextUIProviderFunction>{children}</NextUIProviderFunction>
         <Footer />

@@ -26,6 +26,15 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+/* [data-overlay-container="true"] {
+  height: 100%;
+  width: 100%;
+} */
+
+.link {
+  @apply font-semibold text-cyan-600 hover:underline;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

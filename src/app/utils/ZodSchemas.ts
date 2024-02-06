@@ -1,4 +1,19 @@
 import { z } from "zod";
+// unfinished schemas
+export const LoginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+});
+
+// unfinished schemas
+export const SignupSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(6, { message: "Password too short." })
+    .max(50, { message: "Password too long." }),
+  confirmPassword: z.string(),
+});
 
 export const UserInfoSchema = z.object({
   username: z.union([
