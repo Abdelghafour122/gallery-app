@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Button,
   Card,
@@ -44,7 +46,8 @@ const LoginPage = () => {
               variant="solid"
               color="secondary"
               className="font-semibold uppercase"
-              isDisabled
+              type="submit"
+              //   isDisabled
               //   isLoading
             >
               Log in

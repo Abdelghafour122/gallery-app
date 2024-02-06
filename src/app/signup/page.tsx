@@ -1,3 +1,5 @@
+"use client";
+
 import { LondrinaSolid } from "../utils/fonts";
 import {
   Button,
@@ -9,8 +11,11 @@ import {
   Input,
 } from "@nextui-org/react";
 import Link from "next/link";
+import { useForm } from "react-hook-form";
 
 const SignupPage = () => {
+  const { register, handleSubmit } = useForm();
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <Card className="w-96">
@@ -20,7 +25,11 @@ const SignupPage = () => {
           </h2>
         </CardHeader>
         <CardBody>
-          <form action="" className="flex flex-col w-full h-full gap-4">
+          <form
+            action=""
+            className="flex flex-col w-full h-full gap-4"
+            onSubmit={handleSubmit((data) => console.log(data))}
+          >
             <div className="inputs w-full flex flex-col gap-2">
               <Input
                 variant="bordered"
@@ -29,6 +38,7 @@ const SignupPage = () => {
                 description="this will be replaced with error msg if it exists"
                 type="email"
                 labelPlacement="outside"
+                {...(register("email"), { required: true })}
               />
               <Input
                 variant="bordered"
@@ -37,6 +47,7 @@ const SignupPage = () => {
                 type="password"
                 description="password errors"
                 labelPlacement="outside"
+                {...(register("password"), { required: true })}
               />
               <Input
                 variant="bordered"
@@ -45,13 +56,15 @@ const SignupPage = () => {
                 type="password"
                 description="confirm password errors"
                 labelPlacement="outside"
+                {...(register("cpassword"), { required: true })}
               />
             </div>
             <Button
               variant="solid"
               color="secondary"
               className="font-semibold uppercase"
-              isDisabled
+              type="submit"
+              // isDisabled
             >
               Submit
             </Button>
