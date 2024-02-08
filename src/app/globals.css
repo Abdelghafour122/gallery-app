@@ -35,6 +35,11 @@ body {
   @apply font-semibold text-cyan-600 hover:underline;
 }
 
+h1,
+h2 {
+  font-family: var(--Londrina-Solid-var);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

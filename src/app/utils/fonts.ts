@@ -4,6 +4,10 @@ export const LondrinaSolid = Londrina_Solid({
   weight: "900",
   display: "swap",
   subsets: ["latin"],
+  adjustFontFallback: false,
+  preload: true,
+  style: "normal",
+  variable: "--Londrina-Solid-var",
 });
 
 export const notoSans = Noto_Sans({
