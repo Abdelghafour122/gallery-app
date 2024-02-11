@@ -10,10 +10,52 @@ import {
   Input,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { FcGoogle } from "react-icons/fc";
 import { LondrinaSolid } from "../utils/fonts";
+import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
+import { UseFormReset, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { LoginSchema } from "../utils/ZodSchemas";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
+import { useEffect } from "react";
+
+type LogInFormType = {
+  email: string;
+  password: string;
+};
+
+type SubmitFunctionParamsType = LogInFormType & {
+  reset: UseFormReset<LogInFormType>;
+};
+
+async function callLoginEndpoint(loginData: SubmitFunctionParamsType) {
+  try {
+    await axios.post("api/auth/sign-in", {
+      email: loginData.email,
+      password: loginData.password,
+    });
+    loginData.reset({ email: "", password: "" });
+  } catch (error) {
+    console.log(error);
+    if (axios.isAxiosError(error)) toast.error(error.response?.data);
+  }
+}
 
 const LoginPage = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isValid, isSubmitting, isSubmitSuccessful, isDirty },
+  } = useForm<LogInFormType>({ resolver: zodResolver(LoginSchema) });
+
+  useEffect(() => {
+    if (isSubmitSuccessful && !isDirty) {
+      redirect("/home");
+    }
+  }, [isSubmitSuccessful, isDirty]);
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <Card className="w-96">
@@ -23,15 +65,23 @@ const LoginPage = () => {
           </h2>
         </CardHeader>
         <CardBody>
-          <form action="" className="flex flex-col w-full h-full gap-4">
+          <form
+            action=""
+            onSubmit={handleSubmit(
+              async (data) => await callLoginEndpoint({ ...data, reset })
+            )}
+            className="flex flex-col w-full h-full gap-4"
+          >
             <div className="inputs w-full flex flex-col gap-2">
               <Input
                 variant="bordered"
                 radius="sm"
                 label="Email"
-                description="this will be replaced with error msg if it exists"
                 type="email"
                 labelPlacement="outside"
+                errorMessage={errors.email?.message}
+                isInvalid={errors.email ? true : false}
+                {...register("email")}
               />
               <Input
                 variant="bordered"
@@ -40,6 +90,9 @@ const LoginPage = () => {
                 type="password"
                 description="password errors"
                 labelPlacement="outside"
+                errorMessage={errors.password?.message}
+                isInvalid={errors.password ? true : false}
+                {...register("password")}
               />
             </div>
             <Button
@@ -47,20 +100,14 @@ const LoginPage = () => {
               color="secondary"
               className="font-semibold uppercase"
               type="submit"
-              //   isDisabled
-              //   isLoading
+              isDisabled={!isValid}
+              isLoading={isSubmitting}
             >
               Log in
             </Button>
           </form>
           <div className="w-full text-center py-1 font-semibold">OR</div>
-          <Button
-            variant="bordered"
-            className="font-semibold uppercase"
-            endContent={<FcGoogle size={"2em"} title="Google Icon" />}
-          >
-            Log in with Google
-          </Button>
+          <GoogleAuthButton />
         </CardBody>
         <Divider />
         <CardFooter className="w-full text-center flex items-center justify-center gap-3">

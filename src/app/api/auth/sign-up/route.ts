@@ -1,32 +1,46 @@
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
-  const requestUrl = new URL(request.url);
-  const formData = await request.formData();
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
+type requestBody = {
+  email: string;
+  password: string;
+};
+
+export async function POST(request: NextRequest) {
+  const requestUrl = new URL(request.nextUrl);
+
+  const userData: requestBody = await request.json();
+
+  const { email, password } = userData;
+
   const supabase = createRouteHandlerClient({ cookies });
 
-  const { error } = await supabase.auth.signInWithPassword({
+  console.log({ email, password });
+  // first check if the user doesn't exist, not in the profiles table but in Auth/users
+  // then sign him up
+
+  // supabase.auth.admin.createUser({user_metadata: {}})
+
+  const { error } = await supabase.auth.signUp({
     email,
     password,
+    options: {
+      emailRedirectTo: `${requestUrl.origin}/api/auth/callback`,
+    },
   });
 
   if (error) {
-    // return a normal response not a redirect
-    return NextResponse.redirect(
-      `${requestUrl.origin}/login?error=Could not authenticate, something went wrong!`,
-      {
-        status: 301,
-      }
+    console.log(error);
+    return new NextResponse(
+      "Could not authenticate user, something went wrong!",
+      { status: 500 }
     );
   }
 
-  return NextResponse.redirect(requestUrl.origin, {
-    status: 301,
+  return new NextResponse("Check your email to continue sign in process", {
+    status: 201,
   });
 }

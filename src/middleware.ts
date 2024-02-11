@@ -19,6 +19,8 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  // this will redirect the user to the /home page wherever they might be
+  // try and redirect them to the current page if they're trying to go elsewhere
   if (session && UNLOGGED_ROUTES.includes(request.nextUrl.pathname)) {
     return NextResponse.redirect(new URL("/home", request.nextUrl));
   }

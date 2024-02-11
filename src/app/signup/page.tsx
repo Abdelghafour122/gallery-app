@@ -12,9 +12,49 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
+import { SignupSchema } from "../utils/ZodSchemas";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import toast from "react-hot-toast";
+import { useEffect } from "react";
+interface SignupFormType {
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+async function callSignUpEndpoint(
+  signUpData: Pick<SignupFormType, "email" | "password">
+) {
+  try {
+    await axios
+      .post("api/auth/sign-up", {
+        email: signUpData.email,
+        password: signUpData.password,
+      })
+      .then((res) => {
+        toast(res.data as string);
+      });
+  } catch (error) {
+    console.log(error);
+    if (axios.isAxiosError(error)) {
+      toast.error(error.message);
+    }
+  }
+}
 
 const SignupPage = () => {
-  const { register, handleSubmit } = useForm();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+    reset,
+  } = useForm<SignupFormType>({ resolver: zodResolver(SignupSchema) });
+
+  useEffect(() => {
+    if (isSubmitSuccessful)
+      reset({ email: "", password: "", confirmPassword: "" });
+  }, [isSubmitSuccessful, reset]);
 
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -28,35 +68,40 @@ const SignupPage = () => {
           <form
             action=""
             className="flex flex-col w-full h-full gap-4"
-            onSubmit={handleSubmit((data) => console.log(data))}
+            onSubmit={handleSubmit(
+              async (data) => await callSignUpEndpoint(data)
+            )}
           >
             <div className="inputs w-full flex flex-col gap-2">
               <Input
                 variant="bordered"
                 radius="sm"
                 label="Email"
-                description="this will be replaced with error msg if it exists"
+                isInvalid={errors.email ? true : false}
+                errorMessage={errors.email?.message}
                 type="email"
                 labelPlacement="outside"
-                {...(register("email"), { required: true })}
+                {...register("email")}
               />
               <Input
                 variant="bordered"
                 radius="sm"
                 label="Password"
                 type="password"
-                description="password errors"
+                isInvalid={errors.password ? true : false}
+                errorMessage={errors.password?.message}
                 labelPlacement="outside"
-                {...(register("password"), { required: true })}
+                {...register("password")}
               />
               <Input
                 variant="bordered"
                 radius="sm"
                 label="Confirm your password"
                 type="password"
-                description="confirm password errors"
+                isInvalid={errors.confirmPassword ? true : false}
+                errorMessage={errors.confirmPassword?.message}
                 labelPlacement="outside"
-                {...(register("cpassword"), { required: true })}
+                {...register("confirmPassword")}
               />
             </div>
             <Button
@@ -64,7 +109,7 @@ const SignupPage = () => {
               color="secondary"
               className="font-semibold uppercase"
               type="submit"
-              // isDisabled
+              isLoading={isSubmitting}
             >
               Submit
             </Button>
