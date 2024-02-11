@@ -1,20 +1,42 @@
 import { z } from "zod";
-// unfinished schemas
+
 export const LoginSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email: z
+    .string({
+      required_error: "Please enter your email.",
+      invalid_type_error: "This is not an email.",
+    })
+    .email({ message: "This is not an email." })
+    .trim(),
+  password: z.string({ required_error: "Please enter your password." }),
 });
 
-// unfinished schemas
-export const SignupSchema = z.object({
-  email: z.string().email(),
-  password: z
-    .string()
-    .min(6, { message: "Password too short." })
-    .max(50, { message: "Password too long." }),
-  confirmPassword: z.string(),
-});
+export const SignupSchema = z
+  .object({
+    email: z
+      .string({
+        required_error: "Please enter your email.",
+        invalid_type_error: "This is not an email.",
+      })
+      .trim()
+      .min(1, { message: "Email is required." })
+      .email({ message: "This is not an email." }),
 
+    password: z
+      .string({ required_error: "Please enter your password." })
+      .min(6, { message: "Password should be at least 6 chars." })
+      .max(50, { message: "Password too long." }),
+
+    confirmPassword: z.string({
+      required_error: "Please confirm your password.",
+    }),
+  })
+  .refine((data) => data.confirmPassword === data.password, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
+
+// FOR EDIT PROFILE PAGE
 export const UserInfoSchema = z.object({
   username: z.union([
     z.literal(""),

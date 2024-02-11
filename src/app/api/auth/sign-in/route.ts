@@ -1,14 +1,19 @@
 import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
-  const requestUrl = new URL(request.url);
-  const formData = await request.formData();
-  const email = String(formData.get("email"));
-  const password = String(formData.get("password"));
+type requestBody = {
+  email: string;
+  password: string;
+};
+
+export async function POST(request: NextRequest) {
+  const userData: requestBody = await request.json();
+
+  const { email, password } = userData;
+
   const supabase = createRouteHandlerClient({ cookies });
 
   const { error } = await supabase.auth.signInWithPassword({
@@ -17,16 +22,8 @@ export async function POST(request: Request) {
   });
 
   if (error) {
-    // return a normal response not a redirect
-    return NextResponse.redirect(
-      `${requestUrl.origin}/login?error=Could not authenticate, something went wrong!`,
-      {
-        status: 301,
-      }
-    );
+    return new NextResponse(error.message, { status: 500 });
   }
 
-  return NextResponse.redirect(requestUrl.origin, {
-    status: 301,
-  });
+  return new NextResponse("Logged in successfully!", { status: 200 });
 }
