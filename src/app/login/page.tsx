@@ -47,7 +47,7 @@ const LoginPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid, isSubmitting, isSubmitSuccessful, isDirty },
+    formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
   } = useForm<LogInFormType>({ resolver: zodResolver(LoginSchema) });
 
   useEffect(() => {
@@ -88,7 +88,6 @@ const LoginPage = () => {
                 radius="sm"
                 label="Password"
                 type="password"
-                description="password errors"
                 labelPlacement="outside"
                 errorMessage={errors.password?.message}
                 isInvalid={errors.password ? true : false}
@@ -100,7 +99,6 @@ const LoginPage = () => {
               color="secondary"
               className="font-semibold uppercase"
               type="submit"
-              isDisabled={!isValid}
               isLoading={isSubmitting}
             >
               Log in
