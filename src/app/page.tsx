@@ -22,5 +22,7 @@ export default function Home() {
         </Link>
       </div>
     </main>
+    // fix this
+    // <Footer />
   );
 }

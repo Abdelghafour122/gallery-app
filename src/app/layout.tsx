@@ -16,13 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark min-h-screen h-full w-full relative">
+    <html lang="en" className="dark min-h-screen h-full w-full">
       <body
-        className={`${notoSans.className} h-full flex items-center justify-center`}
+        className={`${notoSans.className} h-full flex items-center justify-center bg-stone-800`}
       >
         <NextUIProviderFunction>{children}</NextUIProviderFunction>
         <Toaster position="bottom-right" reverseOrder={false} />
-        <Footer />
       </body>
     </html>
   );
