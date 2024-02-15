@@ -20,6 +20,7 @@ const GoogleAuthButton = () => {
   const [loading, setLoading] = useState(false);
   return (
     <Button
+      size="lg"
       variant="bordered"
       className="font-semibold uppercase"
       endContent={<FcGoogle size={"2em"} title="Google Icon" />}
