@@ -1,7 +1,6 @@
 "use client";
 
 import { Button, Link, Tooltip } from "@nextui-org/react";
-import { usePathname, useRouter } from "next/navigation";
 import { FaHome, FaSearch } from "react-icons/fa";
 import { FaImage, FaUser } from "react-icons/fa6";
 
