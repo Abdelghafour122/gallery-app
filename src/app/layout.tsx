@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NextUIProviderFunction from "./utils/NextUIProviderFunction";
-import Footer from "@/components/Footer";
-import { notoSans } from "./utils/fonts";
-import { Toaster } from "react-hot-toast";
+import NextUIProviderFunction from "@/utils/NextUIProviderFunction";
+import { notoSans } from "@/utils/fonts";
+import ToasterComp from "@/utils/ToasterComp";
 
 export const metadata: Metadata = {
   title: "Gallerina | A NextJs Gallery App.",
@@ -16,13 +15,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark min-h-screen h-full w-full relative">
+    <html lang="en" className="dark min-h-screen h-full w-full">
       <body
-        className={`${notoSans.className} h-full flex items-center justify-center`}
+        className={`${notoSans.className} h-full flex items-center justify-center bg-neutral-900`}
       >
         <NextUIProviderFunction>{children}</NextUIProviderFunction>
-        <Toaster position="bottom-right" reverseOrder={false} />
-        <Footer />
+        <ToasterComp />
       </body>
     </html>
   );

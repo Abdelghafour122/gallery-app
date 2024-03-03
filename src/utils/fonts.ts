@@ -13,6 +13,8 @@ export const LondrinaSolid = Londrina_Solid({
 export const notoSans = Noto_Sans({
   display: "swap",
   preload: true,
+  style: "normal",
+  adjustFontFallback: false,
   subsets: ["latin"],
   weight: ["400", "700"],
 });

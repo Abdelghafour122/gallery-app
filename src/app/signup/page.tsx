@@ -1,6 +1,6 @@
 "use client";
 
-import { LondrinaSolid } from "../utils/fonts";
+import { LondrinaSolid } from "@/utils/fonts";
 import {
   Button,
   Card,
@@ -12,7 +12,7 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
-import { SignupSchema } from "../utils/ZodSchemas";
+import { SignupSchema } from "@/utils/ZodSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -118,7 +118,7 @@ const SignupPage = () => {
         <Divider />
         <CardFooter className="w-full text-center flex items-center justify-center gap-3">
           <p>Already have an account?</p>
-          <Link href={"/login"} className="link">
+          <Link href={"/login"} className="link" aria-disabled={isSubmitting}>
             Log in
           </Link>
         </CardFooter>

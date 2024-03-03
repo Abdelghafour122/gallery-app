@@ -3,32 +3,32 @@ import { z } from "zod";
 export const LoginSchema = z.object({
   email: z
     .string({
-      required_error: "Please enter your email.",
-      invalid_type_error: "This is not an email.",
+      required_error: "Please enter your email",
+      invalid_type_error: "This is not an email",
     })
-    .email({ message: "This is not an email." })
+    .email({ message: "This is not an email" })
     .trim(),
-  password: z.string({ required_error: "Please enter your password." }),
+  password: z.string().min(1, { message: "Password is required" }),
 });
 
 export const SignupSchema = z
   .object({
     email: z
       .string({
-        required_error: "Please enter your email.",
-        invalid_type_error: "This is not an email.",
+        required_error: "Please enter your email",
+        invalid_type_error: "This is not an email",
       })
       .trim()
-      .min(1, { message: "Email is required." })
-      .email({ message: "This is not an email." }),
+      .min(1, { message: "Email is required" })
+      .email({ message: "This is not an email" }),
 
     password: z
-      .string({ required_error: "Please enter your password." })
-      .min(6, { message: "Password should be at least 6 chars." })
-      .max(50, { message: "Password too long." }),
+      .string({ required_error: "Please enter your password" })
+      .min(6, { message: "Password should be at least 6 chars" })
+      .max(50, { message: "Password too long" }),
 
     confirmPassword: z.string({
-      required_error: "Please confirm your password.",
+      required_error: "Please confirm your password",
     }),
   })
   .refine((data) => data.confirmPassword === data.password, {

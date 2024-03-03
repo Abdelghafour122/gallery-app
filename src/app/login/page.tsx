@@ -10,35 +10,32 @@ import {
   Input,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { LondrinaSolid } from "../utils/fonts";
+import { LondrinaSolid } from "@/utils/fonts";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { UseFormReset, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "../utils/ZodSchemas";
-import axios from "axios";
+import { LoginSchema } from "@/utils/ZodSchemas";
 import toast from "react-hot-toast";
-import { redirect } from "next/navigation";
+import { permanentRedirect } from "next/navigation";
 import { useEffect } from "react";
-
-type LogInFormType = {
-  email: string;
-  password: string;
-};
+import { LogInFormType } from "@/utils/types";
+import { login } from "@/app/actions";
 
 type SubmitFunctionParamsType = LogInFormType & {
   reset: UseFormReset<LogInFormType>;
 };
 
-async function callLoginEndpoint(loginData: SubmitFunctionParamsType) {
+async function userLogin(loginData: SubmitFunctionParamsType) {
   try {
-    await axios.post("api/auth/sign-in", {
+    const err = await login({
       email: loginData.email,
       password: loginData.password,
     });
-    loginData.reset({ email: "", password: "" });
+    if (err) toast.error(err);
+    else loginData.reset({ email: "", password: "" });
   } catch (error) {
+    toast.error("Something went wrong, try again.");
     console.log(error);
-    if (axios.isAxiosError(error)) toast.error(error.response?.data);
   }
 }
 
@@ -47,12 +44,12 @@ const LoginPage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid, isSubmitting, isSubmitSuccessful, isDirty },
+    formState: { errors, isSubmitting, isSubmitSuccessful, isDirty },
   } = useForm<LogInFormType>({ resolver: zodResolver(LoginSchema) });
 
   useEffect(() => {
     if (isSubmitSuccessful && !isDirty) {
-      redirect("/home");
+      permanentRedirect("/home");
     }
   }, [isSubmitSuccessful, isDirty]);
 
@@ -66,9 +63,8 @@ const LoginPage = () => {
         </CardHeader>
         <CardBody>
           <form
-            action=""
             onSubmit={handleSubmit(
-              async (data) => await callLoginEndpoint({ ...data, reset })
+              async (data) => await userLogin({ ...data, reset })
             )}
             className="flex flex-col w-full h-full gap-4"
           >
@@ -88,7 +84,6 @@ const LoginPage = () => {
                 radius="sm"
                 label="Password"
                 type="password"
-                description="password errors"
                 labelPlacement="outside"
                 errorMessage={errors.password?.message}
                 isInvalid={errors.password ? true : false}
@@ -100,19 +95,18 @@ const LoginPage = () => {
               color="secondary"
               className="font-semibold uppercase"
               type="submit"
-              isDisabled={!isValid}
               isLoading={isSubmitting}
             >
               Log in
             </Button>
           </form>
           <div className="w-full text-center py-1 font-semibold">OR</div>
-          <GoogleAuthButton />
+          <GoogleAuthButton isFormSubmitting={isSubmitting} />
         </CardBody>
         <Divider />
         <CardFooter className="w-full text-center flex items-center justify-center gap-3">
           <p>Need an account?</p>
-          <Link href={"/signup"} className="link">
+          <Link href={"/signup"} className="link" aria-disabled={isSubmitting}>
             Sign up
           </Link>
         </CardFooter>

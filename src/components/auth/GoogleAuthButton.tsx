@@ -1,4 +1,5 @@
 "use client";
+
 import { Button } from "@nextui-org/react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useState } from "react";
@@ -16,10 +17,15 @@ export const handleSignInWithGoogle = async () => {
   });
 };
 
-const GoogleAuthButton = () => {
+type Props = {
+  isFormSubmitting: boolean;
+};
+
+const GoogleAuthButton = ({ isFormSubmitting }: Props) => {
   const [loading, setLoading] = useState(false);
   return (
     <Button
+      size="lg"
       variant="bordered"
       className="font-semibold uppercase"
       endContent={<FcGoogle size={"2em"} title="Google Icon" />}
@@ -27,7 +33,7 @@ const GoogleAuthButton = () => {
         setLoading(true);
         handleSignInWithGoogle();
       }}
-      disabled={loading}
+      disabled={loading || isFormSubmitting}
     >
       Log in with Google
     </Button>

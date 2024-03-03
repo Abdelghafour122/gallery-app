@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* maybe use these, idk */
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -24,15 +25,18 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
-
-/* [data-overlay-container="true"] {
-  height: 100%;
-  width: 100%;
 } */
 
+[data-overlay-container="true"] {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .link {
-  @apply font-semibold text-cyan-600 hover:underline;
+  @apply font-semibold text-cyan-600 hover:underline aria-disabled:pointer-events-none aria-disabled:text-cyan-800;
 }
 
 h1,
