@@ -40,7 +40,7 @@ const NavList = () => {
                 }`}
                 as={Link}
                 variant="solid"
-                color="secondary"
+                color="primary"
                 isIconOnly
                 radius="sm"
               >
@@ -63,7 +63,7 @@ const NavList = () => {
             href=""
             as={Link}
             variant="shadow"
-            color="secondary"
+            color="primary"
             isIconOnly
             size="lg"
             radius="full"
