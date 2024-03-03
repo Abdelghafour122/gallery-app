@@ -54,7 +54,8 @@ const LoginPage = () => {
   }, [isSubmitSuccessful, isDirty]);
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="w-full h-full flex flex-col items-center justify-center dark:bg-dot-white/[0.2] bg-dot-black/[0.2]">
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
       <Card className="w-96">
         <CardHeader className="justify-center">
           <h2 className={`${LondrinaSolid.className} text-4xl tracking-wide`}>
