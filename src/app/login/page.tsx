@@ -10,16 +10,16 @@ import {
   Input,
 } from "@nextui-org/react";
 import Link from "next/link";
-import { LondrinaSolid } from "../utils/fonts";
+import { LondrinaSolid } from "@/utils/fonts";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import { UseFormReset, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "../utils/ZodSchemas";
+import { LoginSchema } from "@/utils/ZodSchemas";
 import toast from "react-hot-toast";
 import { permanentRedirect } from "next/navigation";
 import { useEffect } from "react";
-import { LogInFormType } from "../utils/types";
-import { login } from "../actions";
+import { LogInFormType } from "@/utils/types";
+import { login } from "@/app/actions";
 
 type SubmitFunctionParamsType = LogInFormType & {
   reset: UseFormReset<LogInFormType>;
@@ -101,12 +101,12 @@ const LoginPage = () => {
             </Button>
           </form>
           <div className="w-full text-center py-1 font-semibold">OR</div>
-          <GoogleAuthButton />
+          <GoogleAuthButton isFormSubmitting={isSubmitting} />
         </CardBody>
         <Divider />
         <CardFooter className="w-full text-center flex items-center justify-center gap-3">
           <p>Need an account?</p>
-          <Link href={"/signup"} className="link">
+          <Link href={"/signup"} className="link" aria-disabled={isSubmitting}>
             Sign up
           </Link>
         </CardFooter>

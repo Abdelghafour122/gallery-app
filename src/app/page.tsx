@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LondrinaSolid } from "./utils/fonts";
+import { LondrinaSolid } from "@/utils/fonts";
 
 export default function Home() {
   return (

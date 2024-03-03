@@ -36,7 +36,7 @@ body {
 }
 
 .link {
-  @apply font-semibold text-cyan-600 hover:underline;
+  @apply font-semibold text-cyan-600 hover:underline aria-disabled:pointer-events-none aria-disabled:text-cyan-800;
 }
 
 h1,

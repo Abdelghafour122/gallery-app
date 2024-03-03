@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import NextUIProviderFunction from "./utils/NextUIProviderFunction";
-import { notoSans } from "./utils/fonts";
-import ToasterComp from "./utils/ToasterComp";
+import NextUIProviderFunction from "@/utils/NextUIProviderFunction";
+import { notoSans } from "@/utils/fonts";
+import ToasterComp from "@/utils/ToasterComp";
 
 export const metadata: Metadata = {
   title: "Gallerina | A NextJs Gallery App.",
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark min-h-screen h-full w-full">
       <body
-        className={`${notoSans.className} h-full flex items-center justify-center bg-stone-800`}
+        className={`${notoSans.className} h-full flex items-center justify-center bg-neutral-900`}
       >
         <NextUIProviderFunction>{children}</NextUIProviderFunction>
         <ToasterComp />

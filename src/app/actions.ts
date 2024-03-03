@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { createServerActionClient } from "@supabase/auth-helpers-nextjs";
 import { permanentRedirect } from "next/navigation";
-import { LogInFormType } from "./utils/types";
+import { LogInFormType } from "@/utils/types";
 
 const supabase = createServerActionClient({ cookies });
 
