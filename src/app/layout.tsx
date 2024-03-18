@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark min-h-screen h-full w-full">
       <body
-        className={`${notoSans.className} h-full flex items-center justify-center bg-neutral-900`}
+        className={`${notoSans.className} h-full flex items-center justify-center bg-neutral-700`}
       >
         <NextUIProviderFunction>{children}</NextUIProviderFunction>
         <ToasterComp />
