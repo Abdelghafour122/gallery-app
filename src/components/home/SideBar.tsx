@@ -61,6 +61,7 @@ const SideBar = () => {
               href="home/profile"
               className="h-14 gap-2"
               closeOnSelect
+              textValue="profile"
             >
               <p className="font-bold">Signed in as</p>
               <p className="font-bold">@tonyreichert</p>
@@ -69,11 +70,16 @@ const SideBar = () => {
               key="edit-profile"
               href="home/profile/edit-profile"
               closeOnSelect
+              textValue="edit-profile"
             >
               Edit Profile
             </DropdownItem>
-            <DropdownItem key="analytics">Analytics</DropdownItem>
-            <DropdownItem key="personalization">Personalization</DropdownItem>
+            <DropdownItem key="analytics" textValue="analytics">
+              Analytics
+            </DropdownItem>
+            <DropdownItem key="personalization" textValue="personalization">
+              Personalization
+            </DropdownItem>
           </DropdownSection>
           <DropdownSection aria-label="logout">
             <DropdownItem
@@ -82,6 +88,7 @@ const SideBar = () => {
               startContent={<PiSignOutFill size="1.5em" />}
               className="flex items-center justify-start gap-2"
               onClick={handleLogout}
+              textValue="logout"
             >
               Log Out
             </DropdownItem>
